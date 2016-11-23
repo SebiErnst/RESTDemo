@@ -30,18 +30,17 @@ func updateView() {
 }
     
     @IBAction func updateSubstitutions(_ sender: Any) {
-let url = URL(string: "http://borg.kis.agh.edu.pl/~sebi/zastepstwa.php?date=2016-11-22")
-let session = URLSession.shared
-let task = session.dataTask(with: url!)
-{ data, response, err in
-    if data != nil {
-        self.zastepstwa = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String:Any]
-        DispatchQueue.main.async {
-            self.updateView()
+        let url = URL(string: "http://borg.kis.agh.edu.pl/~sebi/zastepstwa.php?date=2016-11-22")
+        let session = URLSession.shared
+        let task = session.dataTask(with: url!) { data, response, err in
+            if data != nil {
+                self.zastepstwa = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String:Any]
+                DispatchQueue.main.async {
+                    self.updateView()
+                }
+            }
         }
-    }
-}
-task.resume()
+        task.resume()
     }
 
     override func didReceiveMemoryWarning() {
